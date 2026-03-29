@@ -32,4 +32,5 @@ dependencies = [
     "numpy",
     "pandas",
     "yfinance",
+    "requests",
 ]
