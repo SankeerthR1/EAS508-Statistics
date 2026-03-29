@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 This repository now includes a starter data pipeline on `main` for building a monthly panel that combines:
 =======
 =======
@@ -97,6 +98,8 @@ Final output:
 
 - `data/processed/monthly_panel.csv`
 =======
+=======
+>>>>>>> origin/codex/debug-extractdata.ipynb-vs8jrd
 Main notebook:
 - `scripts/monthly_pipeline.ipynb`
 
@@ -117,4 +120,12 @@ Optional local input files (if you have them):
 - `data/raw/temp_anomaly_input.csv` (`date`, `temperature_anomaly`)
 - `data/raw/precip_anomaly_input.csv` (`date`, `precipitation_anomaly`)
 - `data/raw/extreme_heat_input.csv` (`date`, `extreme_heat_events`)
+<<<<<<< HEAD
 >>>>>>> origin/codex/debug-extractdata.ipynb-n7dayh
+=======
+
+
+Notes:
+- In Section 4, `USE_ONLINE_ONI = False` by default to avoid network timeout.
+- If needed, provide local ONI file: `data/raw/oni_monthly_input.csv` with columns `date,enso_oni`.
+>>>>>>> origin/codex/debug-extractdata.ipynb-vs8jrd
