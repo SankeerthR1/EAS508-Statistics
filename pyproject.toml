@@ -29,4 +29,7 @@ dependencies = [
     "mamba",
     "matplotlib",
     "scipy",
+    "numpy",
+    "pandas",
+    "yfinance",
 ]
