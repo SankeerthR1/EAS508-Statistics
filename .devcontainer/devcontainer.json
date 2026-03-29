@@ -1,0 +1,36 @@
+{
+	"name": "ERT474/574 Course Materials",
+	"image": "mcr.microsoft.com/devcontainers/python:3.11",
+	"features": {
+		"ghcr.io/va-h/devcontainers-features/uv:1": {},
+		"ghcr.io/devcontainers-extra/features/apt-packages:1": {
+	      "packages": [
+	        "build-essential",
+	        "gfortran",
+		"cmake",
+	        "openmpi-bin",
+	        "libopenmpi-dev",
+		"libnetcdff-dev",
+	        "libnetcdf-dev",
+		"libpnetcdf-dev",
+	        "netcdf-bin"
+	      ]
+	    }
+	},
+	"postCreateCommand": "./${localWorkspaceFolderBasename}/postbuild.sh && git clone https://github.com/OS-Hydro-Analytics-Fall-2025/CourseMaterials25.git",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-toolsai.jupyter"
+			]
+		}
+	},
+	"workspaceFolder": "/workspaces",
+        "containerEnv": {
+                "NETCDF_INCLUDE": "/usr/include",
+                "NETCDF_LIB": "/usr/lib",
+                "NETCDF_BIN": "/usr/bin"
+        }
+}
