@@ -63,6 +63,8 @@ Run:
 - `scripts/monthly_pipeline.ipynb`
 
 What it does:
+
+By default, extraction starts from **1960-01-01** (configurable via notebook constants), and the final panel is trimmed to the earliest date where core signals are jointly available to avoid large blocks of NA values.
 1. Download futures prices and compute monthly log returns
 2. Download macro series from FRED
 3. Download ONI + FEMA disaster data (and merge optional local climate files if present)
