@@ -53,6 +53,14 @@ export FRED_API_KEY="<your_fred_api_key>"
 
 > You can get a free FRED key from St. Louis Fed.
 
+If running in Codespaces/Jupyter where terminal exports are not inherited by the kernel, create a `.env` file in project root with:
+
+```bash
+FRED_API_KEY="<your_fred_api_key>"
+```
+
+Then restart the notebook kernel.
+
 ---
 
 ## 4) Recommended run order (from clean state)
