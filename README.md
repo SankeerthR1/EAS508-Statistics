@@ -43,10 +43,10 @@ This pipeline uses longer-history proxies for several variables:
 - USD index:
   - Uses a stitched FRED broad dollar series (`TWEXBMTH` scaled into `TWEXBGSMTH`)
 - Equity volatility:
-  - Uses monthly realized volatility from daily `^GSPC` instead of spot VIX
+  - Uses stitched FRED volatility series (`VXOCLS` then `VIXCLS`)
 - Climate:
   - Uses NOAA Climate at a Glance monthly regional series for crop-belt proxies
-  - `extreme_heat_events` is proxied by cooling-degree-day anomaly
+  - `extreme_heat_events` is proxied by monthly regional `tmax`
 
 ---
 
