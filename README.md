@@ -8,6 +8,8 @@ This repository builds a **monthly panel dataset** for analyzing and predicting 
 
 - `scripts/monthly_pipeline.ipynb`  
   **Main end-to-end pipeline (recommended)**. It downloads/constructs all feature blocks and writes final panel.
+- `scripts/monthly_pipeline_1980.ipynb`  
+  **1980-start proxy pipeline**. It replaces short-history series with longer official/proxy sources so the panel can start in the 1980s.
 - `scripts/extractdata.ipynb`  
   Lightweight extraction notebook for raw futures + ONI + FEMA disaster features.
 - `scripts/ml_response_feature_exploration.ipynb`  
@@ -35,6 +37,19 @@ Core variables currently include:
   - `disaster_fire_count`
   - `disaster_flood_count`
 
+For the 1980-start pipeline, several variables are intentionally redefined as longer-history proxies:
+
+- Commodity price response:
+  - Uses **USDA NASS monthly Prices Received** instead of Yahoo continuous futures
+  - Output keeps compatibility columns `futures_price` / `futures_return`, but these are price-proxy levels and log returns
+- USD index:
+  - Uses a stitched FRED broad dollar series (`TWEXBMTH` scaled into `TWEXBGSMTH`)
+- Equity volatility:
+  - Uses monthly realized volatility from daily `^GSPC` instead of spot VIX
+- Climate:
+  - Uses NOAA Climate at a Glance monthly regional series for crop-belt proxies
+  - `extreme_heat_events` is proxied by cooling-degree-day anomaly
+
 ---
 
 ## 3) Environment setup
@@ -60,6 +75,14 @@ FRED_API_KEY="<your_fred_api_key>"
 ```
 
 Then restart the notebook kernel.
+
+Set USDA NASS API key (**required** for `scripts/monthly_pipeline_1980.ipynb`):
+
+```bash
+export USDA_NASS_API_KEY="<your_usda_nass_api_key>"
+```
+
+You can request a free key from the USDA Quick Stats API page.
 
 ---
 
@@ -105,6 +128,24 @@ Run:
 
 Use this when you only want quick raw extraction (without full panel merge).
 
+### Step D — Build the 1980-start proxy panel
+Run:
+
+- `scripts/monthly_pipeline_1980.ipynb`
+
+What it does:
+1. Pulls monthly crop price proxies from USDA NASS for corn / soybean / wheat
+2. Builds macro features from FRED plus a longer-history equity-volatility proxy
+3. Builds commodity-aligned climate proxies from NOAA crop-belt regions
+4. Aggregates FEMA disasters monthly
+5. Writes a 1980-start monthly panel using the longest jointly available span
+
+Expected outputs:
+- `data/raw/price_proxy_monthly_1980.csv`
+- `data/raw/macro_monthly_1980.csv`
+- `data/raw/climate_disaster_monthly_1980.csv`
+- `data/processed/monthly_panel_1980.csv`
+
 ---
 
 ## 5) Notes on optional climate input files
@@ -126,10 +167,13 @@ If not found, pipeline continues and those columns are mostly NA.
    Set env var first, then re-run notebook kernel.
 
 2. **Network/API request failures**  
-   Retry later; this pipeline depends on Yahoo Finance / FRED / NOAA / FEMA endpoints.
+   Retry later; these pipelines depend on Yahoo Finance / FRED / NOAA / FEMA / USDA endpoints.
 
-3. **`data/processed/monthly_panel.csv` missing**  
+3. **`USDA_NASS_API_KEY` missing**  
+   Required for the 1980-start proxy pipeline.
+
+4. **`data/processed/monthly_panel.csv` missing**  
    You must run `scripts/monthly_pipeline.ipynb` successfully before ML notebook.
 
-4. **Model performance seems weak**  
+5. **Model performance seems weak**  
    This is normal for monthly return prediction; next step is rolling-window validation, stronger lag design, and interaction features.
